@@ -1,6 +1,8 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
 import challenges from '../../Challenge.json';
+import { LevelUpModal } from '../components/LevelUpModal';
 
 interface Challenge {
   type: 'body' | 'eye'
@@ -18,29 +20,45 @@ interface ChallengeContextData {
   startNewChallenge: () => void
   resetChallenge: () => void
   completeChallenge: () => void
+  closeLevelUpModal: () => void
 }
 
 interface ChallengeProviderProps {
   children: ReactNode;
+  level: number;
+  currentExperience: number;
+  challengeCompleted: number;
 }
 
 export const ChallengeContext = createContext({} as ChallengeContextData);
 
-export function ChallengeProvider({ children }: ChallengeProviderProps) {
-  const [level, setLevel] = useState(1);
-  const [currentExperience, setCurrentExperience] = useState(0);
-  const [challengeCompleted, setChallengeCompleted] = useState(0);
+export function ChallengeProvider({ children, ...rest}: ChallengeProviderProps) {
+  const [level, setLevel] = useState(rest.level ?? 1);
+  const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0);
+  const [challengeCompleted, setChallengeCompleted] = useState(rest.challengeCompleted ?? 0);
 
   const [activeChallenge, setActiveChallenge] = useState(null)
+  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false)
 
   const experienceToNextLevel = Math.pow((level + 1) * 4, 2)
 
   useEffect(() => {
     Notification.requestPermission();
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    Cookies.set('level', String(level))
+    Cookies.set('currentExperience', String(currentExperience))
+    Cookies.set('challengeCompleted', String(challengeCompleted))
+  }, [level, currentExperience, challengeCompleted])
 
   function levelUp() {
     setLevel(level + 1);
+    setIsLevelUpModalOpen(true)
+  }
+
+  function closeLevelUpModal() {
+    setIsLevelUpModalOpen(false)
   }
 
   function startNewChallenge() {
@@ -82,8 +100,21 @@ export function ChallengeProvider({ children }: ChallengeProviderProps) {
   }
 
   return (
-    <ChallengeContext.Provider value={{ level, currentExperience, challengeCompleted, experienceToNextLevel, levelUp, startNewChallenge, activeChallenge, resetChallenge, completeChallenge }}>
+    <ChallengeContext.Provider value={{ 
+      level, 
+      currentExperience, 
+      challengeCompleted, 
+      experienceToNextLevel, 
+      levelUp, startNewChallenge, 
+      activeChallenge, 
+      resetChallenge, 
+      completeChallenge,
+      closeLevelUpModal 
+      }}>
+      
       {children}
+      
+      {isLevelUpModalOpen && <LevelUpModal />}
     </ChallengeContext.Provider>
   )
 }
