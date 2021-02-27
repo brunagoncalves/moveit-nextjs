@@ -1,4 +1,4 @@
-import {
+import React, {
   createContext,
   ReactNode,
   useContext,
@@ -22,7 +22,7 @@ interface CountdownProviderProps {
 
 export const CountdownContext = createContext({} as CountdownContextData);
 
-export function CountdownProvider({ children }: CountdownProviderProps) {
+const CountdownProvider: React.FC = ({ children }: CountdownProviderProps) => {
   const { startNewChallenge } = useContext(ChallengeContext);
 
   const [time, setTime] = useState(0.1 * 60);
@@ -71,4 +71,6 @@ export function CountdownProvider({ children }: CountdownProviderProps) {
       {children}
     </CountdownContext.Provider>
   );
-}
+};
+
+export { CountdownProvider };

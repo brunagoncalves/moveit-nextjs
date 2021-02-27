@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 import challenges from '../../Challenge.json';
@@ -32,10 +32,10 @@ interface ChallengeProviderProps {
 
 export const ChallengeContext = createContext({} as ChallengeContextData);
 
-export function ChallengeProvider({
+const ChallengeProvider: React.FC = ({
   children,
   ...rest
-}: ChallengeProviderProps) {
+}: ChallengeProviderProps) => {
   const [level, setLevel] = useState(rest.level ?? 1);
   const [currentExperience, setCurrentExperience] = useState(
     rest.currentExperience ?? 0
@@ -76,12 +76,12 @@ export function ChallengeProvider({
 
     new Audio('/notification.mp3').play();
 
-    if (Notification.permission === 'granted')
-      [
-        new Notification('Novo desafio 🎉', {
-          body: `Valendo ${challenge.amount} xp!`
-        })
-      ];
+    if (Notification.permission === 'granted') {
+      const notification = new Notification('Novo desafio 🎉', {
+        body: `Valendo ${challenge.amount} xp!`
+      });
+      return notification;
+    }
   }
 
   function resetChallenge() {
@@ -89,9 +89,7 @@ export function ChallengeProvider({
   }
 
   function completeChallenge() {
-    if (!activeChallenge) {
-      return;
-    }
+    if (!activeChallenge) return;
 
     const { amount } = activeChallenge;
 
@@ -127,4 +125,6 @@ export function ChallengeProvider({
       {isLevelUpModalOpen && <LevelUpModal />}
     </ChallengeContext.Provider>
   );
-}
+};
+
+export { ChallengeProvider };

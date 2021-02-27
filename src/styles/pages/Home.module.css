@@ -14,3 +14,12 @@
   gap: 6.25%;
   align-content: center;
 }
+
+@media(max-width: 720px) {
+  .container {
+    height: 100%;
+  }
+  .container section {
+    grid-template-columns: 1fr;
+  }
+}
