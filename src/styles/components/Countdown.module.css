@@ -19,15 +19,15 @@
 }
 
 .countdownContainer > div span {
-  flex: 1;  
+  flex: 1;
 }
 
 .countdownContainer > div span:first-child {
-  border-right: 1px solid #F0F1F3; 
+  border-right: 1px solid #F0F1F3;
 }
 
 .countdownContainer > div span:last-child {
-  border-left: 1px solid #F0F1F3; 
+  border-left: 1px solid #F0F1F3;
 }
 
 .countdownContainer > span {
