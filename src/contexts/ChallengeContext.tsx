@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 import challenges from '../../Challenge.json';
@@ -32,10 +32,10 @@ interface ChallengeProviderProps {
 
 export const ChallengeContext = createContext({} as ChallengeContextData);
 
-const ChallengeProvider: React.FC = ({
+export function ChallengeProvider({
   children,
   ...rest
-}: ChallengeProviderProps) => {
+}: ChallengeProviderProps) {
   const [level, setLevel] = useState(rest.level ?? 1);
   const [currentExperience, setCurrentExperience] = useState(
     rest.currentExperience ?? 0
@@ -125,6 +125,4 @@ const ChallengeProvider: React.FC = ({
       {isLevelUpModalOpen && <LevelUpModal />}
     </ChallengeContext.Provider>
   );
-};
-
-export { ChallengeProvider };
+}

@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { ChallengeContext } from '../contexts/ChallengeContext';
 import styles from '../styles/components/CompletedChallenges.module.css';
 
-const CompletedChallenges: React.FC = () => {
+export function CompletedChallenges() {
   const { challengeCompleted } = useContext(ChallengeContext);
 
   return (
@@ -11,6 +11,4 @@ const CompletedChallenges: React.FC = () => {
       <span>{challengeCompleted}</span>
     </div>
   );
-};
-
-export { CompletedChallenges };
+}

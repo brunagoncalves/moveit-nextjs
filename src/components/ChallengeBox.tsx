@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { ChallengeContext } from '../contexts/ChallengeContext';
 import { CountdownContext } from '../contexts/CountdownContext';
 
 import styles from '../styles/components/ChallengeBox.module.css';
 
-const ChallengeBox: React.FC = () => {
+export function ChallengeBox() {
   const { activeChallenge, resetChallenge, completeChallenge } = useContext(
     ChallengeContext
   );
@@ -60,6 +60,4 @@ const ChallengeBox: React.FC = () => {
       )}
     </div>
   );
-};
-
-export { ChallengeBox };
+}

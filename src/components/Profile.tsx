@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { ChallengeContext } from '../contexts/ChallengeContext';
 
 import styles from '../styles/components/Profile.module.css';
 
-const Profile: React.FC = () => {
+export function Profile() {
   const { level } = useContext(ChallengeContext);
 
   return (
@@ -21,6 +21,4 @@ const Profile: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export { Profile };
+}

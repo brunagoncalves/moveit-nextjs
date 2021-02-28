@@ -22,17 +22,17 @@ interface CountdownProviderProps {
 
 export const CountdownContext = createContext({} as CountdownContextData);
 
-const CountdownProvider: React.FC = ({ children }: CountdownProviderProps) => {
+let countdownTimeout: NodeJS.Timeout;
+
+export function CountdownProvider({ children }: CountdownProviderProps) {
   const { startNewChallenge } = useContext(ChallengeContext);
 
-  const [time, setTime] = useState(0.1 * 60);
+  const [time, setTime] = useState(30 * 60);
   const [isActive, setIsActive] = useState(false);
   const [hasFinished, setHasFinished] = useState(false);
 
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
-
-  let countdownTimeout: NodeJS.Timeout;
 
   function startCountdown() {
     setIsActive(true);
@@ -42,7 +42,7 @@ const CountdownProvider: React.FC = ({ children }: CountdownProviderProps) => {
     clearTimeout(countdownTimeout);
     setIsActive(false);
     setHasFinished(false);
-    setTime(0.1 * 60);
+    setTime(30 * 60);
   }
 
   useEffect(() => {
@@ -71,6 +71,4 @@ const CountdownProvider: React.FC = ({ children }: CountdownProviderProps) => {
       {children}
     </CountdownContext.Provider>
   );
-};
-
-export { CountdownProvider };
+}

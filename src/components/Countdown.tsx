@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { CountdownContext } from '../contexts/CountdownContext';
 
 import styles from '../styles/components/Countdown.module.css';
 
-const Countdown: React.FC = () => {
+export function Countdown() {
   const {
     minutes,
     seconds,
@@ -57,6 +57,4 @@ const Countdown: React.FC = () => {
       )}
     </div>
   );
-};
-
-export { Countdown };
+}
